@@ -11,7 +11,7 @@ public class RCloneService
         if (File.Exists(RClonePath) == false) throw new FileNotFoundException("RClone exe file not found.");
     }
 
-    public int RunCommand(string arguments, ref string output)
+    private static Process GetProcess(string arguments)
     {
         var process = new Process();
         process.StartInfo.RedirectStandardInput = true;
@@ -22,13 +22,28 @@ public class RCloneService
         process.StartInfo.FileName = RClonePath;
         process.StartInfo.Arguments = arguments;
 
+        return process;
+    }
+
+    public static int RunCommand(string arguments, ref string output)
+    {
+        var process = GetProcess(arguments);
+
         process.Start();
 
         output = process.StandardOutput.ReadToEnd();
 
-        process.Kill();
+        process.Close();
 
         return process.ExitCode;
+    }
+
+    public static Process RunHttpServer()
+    {
+        var process = GetProcess($"rcd --rc-no-auth");
+        process.Start();
+
+        return process;
     }
 
     public bool CreateConfig(string jsonString, string command, ref string output)

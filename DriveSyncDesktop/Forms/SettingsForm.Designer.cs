@@ -1,4 +1,4 @@
-﻿namespace DriveSyncDesktop
+﻿namespace DriveSyncDesktop.Forms
 {
     partial class SettingsForm
     {

@@ -1,3 +1,5 @@
+using DriveSyncDesktop.Forms;
+
 namespace DriveSyncDesktop
 {
     internal static class Program

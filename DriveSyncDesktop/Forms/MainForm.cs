@@ -1,20 +1,50 @@
-namespace DriveSyncDesktop
+using System.Diagnostics;
+using DriveSyncDesktop.Service;
+
+namespace DriveSyncDesktop.Forms;
+
+public partial class MainForm : Form
 {
-    public partial class MainForm : Form
+    private Process? _httpServerProcess;
+
+    public MainForm()
     {
-        public MainForm()
+        InitializeComponent();
+    }
+
+    private void backgroundWorkerForHttp_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+    {
+        try
         {
-            InitializeComponent();
+            _httpServerProcess = RCloneService.RunHttpServer();
         }
-
-        private void button1_Click_1(object sender, EventArgs e)
+        catch (Exception ex)
         {
-            var currentDirectory = Application.StartupPath;
-
-            var binary = Path.Join(currentDirectory, "Binary");
-
-            MessageBox.Show(binary);
-
+            MessageBox.Show(ex.Message);
         }
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+    }
+
+    private void MainForm_Load(object sender, EventArgs e)
+    {
+        if (backgroundWorkerForHttp.IsBusy == false)
+        {
+            backgroundWorkerForHttp.RunWorkerAsync();
+        }
+    }
+
+    private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+    {
+        if (!backgroundWorkerForHttp.WorkerSupportsCancellation) return;
+
+        _httpServerProcess?.Kill();
+        backgroundWorkerForHttp.CancelAsync();
     }
 }
