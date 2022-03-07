@@ -36,11 +36,14 @@
             this.CreateButton = new System.Windows.Forms.Button();
             this.RootFolderIdTextbox = new System.Windows.Forms.TextBox();
             this.AccountNameTextbox = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.SaveButton = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.DelayTimeTextbox = new System.Windows.Forms.TextBox();
+            this.StartUpCheckBox = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -58,6 +61,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.StartUpCheckBox);
+            this.tabPage1.Controls.Add(this.DelayTimeTextbox);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -136,15 +141,16 @@
             this.AccountNameTextbox.Size = new System.Drawing.Size(497, 34);
             this.AccountNameTextbox.TabIndex = 0;
             // 
-            // button1
+            // SaveButton
             // 
-            this.button1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.button1.Location = new System.Drawing.Point(351, 486);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(174, 44);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Save";
-            this.button1.UseVisualStyleBackColor = true;
+            this.SaveButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.SaveButton.Location = new System.Drawing.Point(351, 486);
+            this.SaveButton.Name = "SaveButton";
+            this.SaveButton.Size = new System.Drawing.Size(174, 44);
+            this.SaveButton.TabIndex = 2;
+            this.SaveButton.Text = "Save";
+            this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // statusStrip1
             // 
@@ -170,18 +176,39 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(45, 22);
             this.toolStripStatusLabel.Text = "None";
             // 
+            // DelayTimeTextbox
+            // 
+            this.DelayTimeTextbox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.DelayTimeTextbox.Location = new System.Drawing.Point(6, 6);
+            this.DelayTimeTextbox.Name = "DelayTimeTextbox";
+            this.DelayTimeTextbox.PlaceholderText = "Delay time (in miliseconds) (required)";
+            this.DelayTimeTextbox.Size = new System.Drawing.Size(497, 34);
+            this.DelayTimeTextbox.TabIndex = 1;
+            // 
+            // StartUpCheckBox
+            // 
+            this.StartUpCheckBox.AutoSize = true;
+            this.StartUpCheckBox.Location = new System.Drawing.Point(6, 131);
+            this.StartUpCheckBox.Name = "StartUpCheckBox";
+            this.StartUpCheckBox.Size = new System.Drawing.Size(196, 24);
+            this.StartUpCheckBox.TabIndex = 2;
+            this.StartUpCheckBox.Text = "Start Program on Startup";
+            this.StartUpCheckBox.UseVisualStyleBackColor = true;
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 555);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Name = "SettingsForm";
             this.Text = "SettingsForm";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
@@ -197,7 +224,7 @@
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
-        private Button button1;
+        private Button SaveButton;
         private StatusStrip statusStrip1;
         private ToolStripProgressBar toolStripProgressBar;
         private TextBox AccountNameTextbox;
@@ -206,5 +233,7 @@
         private DataGridView dataGridView;
         private ToolStripStatusLabel toolStripStatusLabel;
         private Button DeleteAccountButton;
+        private TextBox DelayTimeTextbox;
+        private CheckBox StartUpCheckBox;
     }
 }

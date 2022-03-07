@@ -18,9 +18,13 @@ public partial class MainForm : Form
     {
         try
         {
-            // Run RClone Server with rclone.exe file
             toolStripStatusLabel.Text = "Starting RClone server";
+            toolStripProgressBar.Value = 10;
+            
+            // Run RClone Server with rclone.exe file
             _httpServerProcess = RCloneService.RunHttpServer();
+
+            toolStripProgressBar.Value = 80;
             toolStripStatusLabel.Text = "Successfully started RClone server";
 
             // Set Notify Icon icon and set visibility true
@@ -34,6 +38,8 @@ public partial class MainForm : Form
             // Notify Icon Context menu strip
             //_notifyIcon.ContextMenuStrip = new ContextMenuStrip();
             //_notifyIcon.ContextMenuStrip.Items.Add("Exit");
+
+            toolStripProgressBar.Value = 100;
         }
         catch (Exception ex)
         {

@@ -1,5 +1,6 @@
-﻿using DriveSyncDesktop.ApiModels;
+﻿using DriveSyncDesktop.Models;
 using DriveSyncDesktop.Service;
+using DriveSyncDesktop.Utils;
 
 namespace DriveSyncDesktop.Forms;
 
@@ -39,7 +40,20 @@ public partial class SettingsForm : Form
 
         try
         {
+            toolStripProgressBar.Value = 20;
+
+            StartUpCheckBox.Checked = StartupUtils.Get();
+
+            toolStripProgressBar.Value = 50;
+
+            var config = AppConfigUtils.Load();
+            if (config != null)
+            {
+                DelayTimeTextbox.Text = config.RepeatSync.ToString();
+            }
             await PopulateGridView();
+
+            toolStripProgressBar.Value = 100;
         }
         catch (Exception ex)
         {
@@ -55,6 +69,7 @@ public partial class SettingsForm : Form
         var row = dataGridView.SelectedRows[0];
         _selectedRemoteForDelete = row?.Cells["Name"].Value.ToString();
     }
+
     private async void DeleteAccountButton_Click(object sender, EventArgs e)
     {
         try
@@ -63,11 +78,36 @@ public partial class SettingsForm : Form
             RCloneService.DeleteConfig(_selectedRemoteForDelete ?? "", ref output);
 
             await PopulateGridView();
-
         }
         catch (Exception ex)
         {
             MessageBox.Show(ex.Message);
         }
+    }
+
+    private void SaveButton_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (StartUpCheckBox.Checked)
+                StartupUtils.Add();
+            else
+                StartupUtils.Remove();
+
+            var config = new AppConfigModel
+            {
+                RepeatSync = Convert.ToDouble(DelayTimeTextbox.Text)
+            };
+
+            AppConfigUtils.Save(config);
+
+            MessageBox.Show("Saved successfully");
+            Hide();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+
     }
 }
