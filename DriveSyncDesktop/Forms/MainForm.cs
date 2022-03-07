@@ -16,11 +16,14 @@ public partial class MainForm : Form
     {
         try
         {
+            toolStripStatusLabel.Text = "Starting RClone server";
             _httpServerProcess = RCloneService.RunHttpServer();
+            toolStripStatusLabel.Text = "Successfully started RClone server";
         }
         catch (Exception ex)
         {
             MessageBox.Show(ex.Message);
+            Application.Exit();
         }
     }
 
@@ -32,6 +35,7 @@ public partial class MainForm : Form
     {
     }
 
+    // ----- Form Events -----
     private void MainForm_Load(object sender, EventArgs e)
     {
         if (backgroundWorkerForHttp.IsBusy == false)
@@ -39,7 +43,6 @@ public partial class MainForm : Form
             backgroundWorkerForHttp.RunWorkerAsync();
         }
     }
-
     private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
     {
         if (!backgroundWorkerForHttp.WorkerSupportsCancellation) return;
