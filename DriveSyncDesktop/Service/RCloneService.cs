@@ -6,11 +6,6 @@ public class RCloneService
 {
     private static readonly string RClonePath = Path.Join(Application.StartupPath, "Binary", "rclone.exe");
 
-    public RCloneService()
-    {
-        if (File.Exists(RClonePath) == false) throw new FileNotFoundException("RClone exe file not found.");
-    }
-
     private static Process GetProcess(string arguments)
     {
         var process = new Process();
@@ -46,7 +41,7 @@ public class RCloneService
         return process;
     }
 
-    public bool CreateConfig(string jsonString, string command, ref string output)
+    public static bool CreateConfig(string jsonString, string command, ref string output)
     {
         jsonString = jsonString.Replace("\"", "\\\"");
         var exitCode = RunCommand($"rc --json {jsonString} {command}", ref output);
@@ -54,14 +49,14 @@ public class RCloneService
         return exitCode == 0;
     }
 
-    public bool DeleteConfig(string remoteName, ref string output)
+    public static bool DeleteConfig(string remoteName, ref string output)
     {
         var exitCode = RunCommand($"config delete {remoteName}", ref output);
 
         return exitCode == 0;
     }
 
-    public bool Copy(string sourceCommand, string destCommand, ref string output)
+    public static bool Copy(string sourceCommand, string destCommand, ref string output)
     {
         var exitCode = RunCommand($"copy {sourceCommand} {destCommand}:", ref output);
 

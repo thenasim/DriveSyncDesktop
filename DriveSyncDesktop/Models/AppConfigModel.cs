@@ -1,4 +1,4 @@
-﻿namespace DriveSyncDesktop.ApiModels;
+﻿namespace DriveSyncDesktop.Models;
 
 public class AppConfigModel
 {
