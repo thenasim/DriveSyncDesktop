@@ -32,6 +32,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.SettingsButton = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,9 +47,9 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar,
             this.toolStripStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 424);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 502);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(786, 26);
             this.statusStrip1.TabIndex = 7;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -65,11 +66,22 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(45, 22);
             this.toolStripStatusLabel.Text = "None";
             // 
+            // SettingsButton
+            // 
+            this.SettingsButton.Location = new System.Drawing.Point(680, 12);
+            this.SettingsButton.Name = "SettingsButton";
+            this.SettingsButton.Size = new System.Drawing.Size(94, 29);
+            this.SettingsButton.TabIndex = 8;
+            this.SettingsButton.Text = "Settings";
+            this.SettingsButton.UseVisualStyleBackColor = true;
+            this.SettingsButton.Click += new System.EventHandler(this.SettingsButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(786, 528);
+            this.Controls.Add(this.SettingsButton);
             this.Controls.Add(this.statusStrip1);
             this.Name = "MainForm";
             this.Text = "Home - DriveSyncDesktop";
@@ -87,5 +99,6 @@
         private StatusStrip statusStrip1;
         private ToolStripProgressBar toolStripProgressBar;
         private ToolStripStatusLabel toolStripStatusLabel;
+        private Button SettingsButton;
     }
 }

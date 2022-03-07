@@ -31,9 +31,19 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.DeleteAccountButton = new System.Windows.Forms.Button();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.CreateButton = new System.Windows.Forms.Button();
+            this.RootFolderIdTextbox = new System.Windows.Forms.TextBox();
+            this.AccountNameTextbox = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -58,6 +68,11 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.DeleteAccountButton);
+            this.tabPage2.Controls.Add(this.dataGridView);
+            this.tabPage2.Controls.Add(this.CreateButton);
+            this.tabPage2.Controls.Add(this.RootFolderIdTextbox);
+            this.tabPage2.Controls.Add(this.AccountNameTextbox);
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -66,14 +81,60 @@
             this.tabPage2.Text = "Accounts";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // statusStrip1
+            // DeleteAccountButton
             // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 533);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(541, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
+            this.DeleteAccountButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.DeleteAccountButton.Location = new System.Drawing.Point(167, 389);
+            this.DeleteAccountButton.Name = "DeleteAccountButton";
+            this.DeleteAccountButton.Size = new System.Drawing.Size(174, 40);
+            this.DeleteAccountButton.TabIndex = 5;
+            this.DeleteAccountButton.Text = "Delete";
+            this.DeleteAccountButton.UseVisualStyleBackColor = true;
+            this.DeleteAccountButton.Click += new System.EventHandler(this.DeleteAccountButton_Click);
+            // 
+            // dataGridView
+            // 
+            this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Location = new System.Drawing.Point(3, 158);
+            this.dataGridView.MultiSelect = false;
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
+            this.dataGridView.RowHeadersWidth = 51;
+            this.dataGridView.RowTemplate.Height = 29;
+            this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView.Size = new System.Drawing.Size(500, 225);
+            this.dataGridView.TabIndex = 4;
+            this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
+            // 
+            // CreateButton
+            // 
+            this.CreateButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.CreateButton.Location = new System.Drawing.Point(167, 86);
+            this.CreateButton.Name = "CreateButton";
+            this.CreateButton.Size = new System.Drawing.Size(174, 44);
+            this.CreateButton.TabIndex = 3;
+            this.CreateButton.Text = "Create";
+            this.CreateButton.UseVisualStyleBackColor = true;
+            // 
+            // RootFolderIdTextbox
+            // 
+            this.RootFolderIdTextbox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.RootFolderIdTextbox.Location = new System.Drawing.Point(6, 46);
+            this.RootFolderIdTextbox.Name = "RootFolderIdTextbox";
+            this.RootFolderIdTextbox.PlaceholderText = "Google Drive folder hash (optional)";
+            this.RootFolderIdTextbox.Size = new System.Drawing.Size(497, 34);
+            this.RootFolderIdTextbox.TabIndex = 1;
+            // 
+            // AccountNameTextbox
+            // 
+            this.AccountNameTextbox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.AccountNameTextbox.Location = new System.Drawing.Point(6, 6);
+            this.AccountNameTextbox.Name = "AccountNameTextbox";
+            this.AccountNameTextbox.PlaceholderText = "Enter account name (required)";
+            this.AccountNameTextbox.Size = new System.Drawing.Size(497, 34);
+            this.AccountNameTextbox.TabIndex = 0;
             // 
             // button1
             // 
@@ -85,6 +146,30 @@
             this.button1.Text = "Save";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar,
+            this.toolStripStatusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 529);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(541, 26);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripProgressBar
+            // 
+            this.toolStripProgressBar.Name = "toolStripProgressBar";
+            this.toolStripProgressBar.Size = new System.Drawing.Size(200, 18);
+            // 
+            // toolStripStatusLabel
+            // 
+            this.toolStripStatusLabel.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(45, 22);
+            this.toolStripStatusLabel.Text = "None";
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -95,7 +180,13 @@
             this.Controls.Add(this.tabControl1);
             this.Name = "SettingsForm";
             this.Text = "SettingsForm";
+            this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.tabControl1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -106,7 +197,14 @@
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
-        private StatusStrip statusStrip1;
         private Button button1;
+        private StatusStrip statusStrip1;
+        private ToolStripProgressBar toolStripProgressBar;
+        private TextBox AccountNameTextbox;
+        private TextBox RootFolderIdTextbox;
+        private Button CreateButton;
+        private DataGridView dataGridView;
+        private ToolStripStatusLabel toolStripStatusLabel;
+        private Button DeleteAccountButton;
     }
 }
