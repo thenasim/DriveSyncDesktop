@@ -13,6 +13,7 @@ public partial class SettingsForm : Form
     private RemoteListsApiModel? _remoteLists;
     private string? _selectedRemoteForDelete;
     private AppConfigModel _appConfig = new();
+    private List<string> _toDeleteFolder = new();
 
     public SettingsForm()
     {
@@ -26,24 +27,43 @@ public partial class SettingsForm : Form
         FlowLayoutPanel flowPanel = new()
         {
             Width = 490,
-            Height = 90,
+            Height = 100,
             FlowDirection = FlowDirection.TopDown
+        };
+        FlowLayoutPanel flowPanel2 = new()
+        {
+            Width = 490,
+            Height = 50,
+            FlowDirection = FlowDirection.LeftToRight
         };
         var newFolderBrowserDialog = new FolderBrowserDialog();
         TextBox textBox = new()
         {
             Multiline = true,
             Font = new Font("Arial", 14),
-            Size = new Size(470, 32),
+            Size = new Size(480, 32),
             ReadOnly = true,
             Text = selectedFolderPath,
             PlaceholderText = "Click here to select folder",
+            WordWrap = true
         };
         ComboBox comboBox = new()
         {
             Font = new Font("Arial", 14),
-            Size = new Size(190, 42),
+            Size = new Size(313, 42),
             DropDownStyle = ComboBoxStyle.DropDownList
+        };
+        Button selectButton = new()
+        {
+            Font = new Font("Arial", 10),
+            Size = new Size(78, 35),
+            Text = "Select"
+        };
+        Button deleteButton = new()
+        {
+            Font = new Font("Arial", 10),
+            Size = new Size(78, 35),
+            Text = "X"
         };
 
         if (_remoteLists != null)
@@ -52,14 +72,23 @@ public partial class SettingsForm : Form
 
         comboBox.SelectedIndex = comboBox.FindString(selectedRemoteName);
 
-        textBox.Click += (_, _) =>
+        // events
+        selectButton.Click += (_, _) =>
         {
             if (newFolderBrowserDialog.ShowDialog() == DialogResult.OK)
                 textBox.Text = newFolderBrowserDialog.SelectedPath;
         };
+        deleteButton.Click += (_, _) =>
+        {
+            _toDeleteFolder.Add(textBox.Text ?? "");
+            flowPanel.Visible = false;
+        };
 
+        flowPanel2.Controls.Add(comboBox);
+        flowPanel2.Controls.Add(selectButton);
+        flowPanel2.Controls.Add(deleteButton);
         flowPanel.Controls.Add(textBox);
-        flowPanel.Controls.Add(comboBox);
+        flowPanel.Controls.Add(flowPanel2);
 
         flowLayoutPanel.Controls.Add(flowPanel);
 
@@ -69,11 +98,11 @@ public partial class SettingsForm : Form
             ComboBox = comboBox
         });
     }
-    private void SetAppConfig(string removeTextBox = "")
+    private void SetAppConfig()
     {
         var folderSyncList = new List<FolderToSync>();
 
-        foreach (var x in _textBoxComboboxList.Where(x => removeTextBox != x.TextBox.Text))
+        foreach (var x in _textBoxComboboxList.Where(x => !_toDeleteFolder.Contains(x.TextBox.Text)))
         {
             if (string.IsNullOrEmpty(x.TextBox.Text) || string.IsNullOrEmpty(x.ComboBox.Text))
                 continue;
@@ -91,14 +120,14 @@ public partial class SettingsForm : Form
             RepeatSync = Convert.ToDouble(DelayTimeTextbox.Text),
         };
     }
-    private void SaveConfig(string removeTextBox = "")
+    private void SaveConfig()
     {
-        SetAppConfig(removeTextBox);
+        SetAppConfig();
         AppConfigUtils.Save(_appConfig);
     }
 
     // ----- GridView -----
-    private async Task PopulateGridView(bool onlySelf = false)
+    private async Task PopulateGridView(bool refresh = false)
     {
         toolStripStatusLabel.Text = "Loading remotes";
         toolStripProgressBar.Value = 50;
@@ -114,7 +143,7 @@ public partial class SettingsForm : Form
 
         toolStripStatusLabel.Text = "Successfully loaded remotes";
 
-        if (onlySelf) toolStripProgressBar.Value = 100;
+        if (refresh) toolStripProgressBar.Value = 100;
     }
 
     // ----- Form Events -----
@@ -126,11 +155,8 @@ public partial class SettingsForm : Form
         try
         {
             AddNewButton.Enabled = false;
-
             toolStripProgressBar.Value = 20;
-
             StartUpCheckBox.Checked = StartupUtils.Get();
-
             toolStripProgressBar.Value = 50;
 
             var config = AppConfigUtils.Load();
