@@ -20,16 +20,14 @@ public class RCloneService
         return process;
     }
 
-    public static int RunCommand(string arguments, ref string output)
+    public static int RunCommand(string arguments, out string output)
     {
         var process = GetProcess(arguments);
-
         process.Start();
 
         output = process.StandardOutput.ReadToEnd();
 
         process.WaitForExit();
-
         return process.ExitCode;
     }
 
@@ -41,24 +39,31 @@ public class RCloneService
         return process;
     }
 
-    public static bool CreateConfig(string jsonString, ref string output)
+    public static bool CreateConfig(string jsonString, out string output)
     {
         jsonString = jsonString.Replace("\"", "\\\"");
-        var exitCode = RunCommand($"rc --json {jsonString} config/create", ref output);
+        var exitCode = RunCommand($"rc --json {jsonString} config/create", out output);
 
         return exitCode == 0;
     }
 
-    public static bool DeleteConfig(string remoteName, ref string output)
+    public static bool DeleteConfig(string remoteName, out string output)
     {
-        var exitCode = RunCommand($"config delete {remoteName}", ref output);
+        var exitCode = RunCommand($"config delete {remoteName}", out output);
 
         return exitCode == 0;
     }
 
-    public static bool Copy(string sourceCommand, string destCommand, ref string output)
+    public static bool ListDirectories(string remoteName, out string output, string remotePath = "")
     {
-        var exitCode = RunCommand($"copy {sourceCommand} {destCommand}:", ref output);
+        var exitCode = RunCommand($"lsjson {remoteName}:{remotePath}", out output);
+
+        return exitCode == 0;
+    }
+
+    public static bool Copy(string sourceCommand, string destCommand, out string output, string remotePath = "")
+    {
+        var exitCode = RunCommand($"copy {sourceCommand} {destCommand}:{remotePath}", out output);
 
         return exitCode == 0;
     }

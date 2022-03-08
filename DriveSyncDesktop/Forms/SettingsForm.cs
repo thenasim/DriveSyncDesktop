@@ -13,7 +13,8 @@ public partial class SettingsForm : Form
     private RemoteListsApiModel? _remoteLists;
     private string? _selectedRemoteForDelete;
     private AppConfigModel _appConfig = new();
-    private List<string> _toDeleteFolder = new();
+    private readonly List<string> _toDeleteFolder = new();
+    private static readonly Dictionary<string, List<DirectoryApiModel>> RemoteDirectoryList = new();
 
     public SettingsForm()
     {
@@ -45,24 +46,23 @@ public partial class SettingsForm : Form
             ReadOnly = true,
             Text = selectedFolderPath,
             PlaceholderText = "Click here to select folder",
-            WordWrap = true
         };
         ComboBox comboBox = new()
         {
             Font = new Font("Arial", 14),
-            Size = new Size(313, 42),
+            Size = new Size(120, 42),
             DropDownStyle = ComboBoxStyle.DropDownList
         };
-        Button selectButton = new()
+        ComboBox remoteFolderComboBox = new()
         {
-            Font = new Font("Arial", 10),
-            Size = new Size(78, 35),
-            Text = "Select"
+            Font = new Font("Arial", 14),
+            Size = new Size(280, 42),
+            DropDownStyle = ComboBoxStyle.DropDownList
         };
         Button deleteButton = new()
         {
             Font = new Font("Arial", 10),
-            Size = new Size(78, 35),
+            Size = new Size(60, 37),
             Text = "X"
         };
 
@@ -72,12 +72,26 @@ public partial class SettingsForm : Form
 
         comboBox.SelectedIndex = comboBox.FindString(selectedRemoteName);
 
-        // events
-        selectButton.Click += (_, _) =>
+        // If the remote account is selected set folder list in combobox
+        comboBox.SelectedIndexChanged += (_, _) =>
+        {
+            remoteFolderComboBox.Items.Clear();
+            var remoteFolders = RemoteDirectoryList[comboBox.Text];
+
+            foreach (var dir in remoteFolders.Where(dir => dir.IsDir))
+            {
+                remoteFolderComboBox.Items.Add(dir.Name);
+            }
+        };
+
+        // Set the text box text if folder is selected
+        textBox.DoubleClick += (_, _) =>
         {
             if (newFolderBrowserDialog.ShowDialog() == DialogResult.OK)
                 textBox.Text = newFolderBrowserDialog.SelectedPath;
         };
+
+        // Hide and add the selected text
         deleteButton.Click += (_, _) =>
         {
             _toDeleteFolder.Add(textBox.Text ?? "");
@@ -85,7 +99,7 @@ public partial class SettingsForm : Form
         };
 
         flowPanel2.Controls.Add(comboBox);
-        flowPanel2.Controls.Add(selectButton);
+        flowPanel2.Controls.Add(remoteFolderComboBox);
         flowPanel2.Controls.Add(deleteButton);
         flowPanel.Controls.Add(textBox);
         flowPanel.Controls.Add(flowPanel2);
@@ -120,6 +134,19 @@ public partial class SettingsForm : Form
             RepeatSync = Convert.ToDouble(DelayTimeTextbox.Text),
         };
     }
+    private async Task LoadRemoteDirectories()
+    {
+        if (_remoteLists?.Remotes == null) return;
+
+        foreach (var remote in _remoteLists.Remotes)
+        {
+            RCloneService.ListDirectories(remote, out var output);
+            var data = await Task.FromResult(JsonSerializer.Deserialize<List<DirectoryApiModel>>(output));
+
+            if (data == null) continue;
+            RemoteDirectoryList.Add(remote, data);
+        }
+    }
     private void SaveConfig()
     {
         SetAppConfig();
@@ -130,7 +157,7 @@ public partial class SettingsForm : Form
     private async Task PopulateGridView(bool refresh = false)
     {
         toolStripStatusLabel.Text = "Loading remotes";
-        toolStripProgressBar.Value = 50;
+        if (refresh) toolStripProgressBar.Value = 10;
 
         // Data grid view
         _remoteLists = await _rCloneApiService.GetRemotes();
@@ -166,6 +193,7 @@ public partial class SettingsForm : Form
             }
 
             await PopulateGridView();
+            await LoadRemoteDirectories();
 
             if (config?.FolderToSyncList != null)
                 foreach (var toSync in config.FolderToSyncList)
@@ -195,8 +223,7 @@ public partial class SettingsForm : Form
     {
         try
         {
-            var output = "";
-            RCloneService.DeleteConfig(_selectedRemoteForDelete ?? "", ref output);
+            RCloneService.DeleteConfig(_selectedRemoteForDelete ?? "", out var output);
 
             await PopulateGridView(true);
         }
@@ -248,8 +275,7 @@ public partial class SettingsForm : Form
             }
         };
 
-        var output = "";
-        RCloneService.CreateConfig(JsonSerializer.Serialize(configModel), ref output);
+        RCloneService.CreateConfig(JsonSerializer.Serialize(configModel), out var output);
     }
 
     private async void RefreshButton_Click(object sender, EventArgs e)
