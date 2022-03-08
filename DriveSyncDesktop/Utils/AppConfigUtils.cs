@@ -25,11 +25,18 @@ public class AppConfigUtils
 
     public static AppConfigModel? Load(Action? myFunc = null)
     {
-        var content = File.ReadAllText(ConfigFilePath);
-        var result = JsonSerializer.Deserialize<AppConfigModel>(content);
+        try
+        {
+            var content = File.ReadAllText(ConfigFilePath);
+            var result = JsonSerializer.Deserialize<AppConfigModel>(content);
 
-        myFunc?.Invoke();
+            myFunc?.Invoke();
 
-        return result;
+            return result;
+        }
+        catch (Exception _)
+        {
+            return null;
+        }
     }
 }

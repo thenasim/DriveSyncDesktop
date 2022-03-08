@@ -28,7 +28,7 @@ public class RCloneService
 
         output = process.StandardOutput.ReadToEnd();
 
-        process.Close();
+        process.WaitForExit();
 
         return process.ExitCode;
     }
@@ -41,10 +41,10 @@ public class RCloneService
         return process;
     }
 
-    public static bool CreateConfig(string jsonString, string command, ref string output)
+    public static bool CreateConfig(string jsonString, ref string output)
     {
         jsonString = jsonString.Replace("\"", "\\\"");
-        var exitCode = RunCommand($"rc --json {jsonString} {command}", ref output);
+        var exitCode = RunCommand($"rc --json {jsonString} config/create", ref output);
 
         return exitCode == 0;
     }

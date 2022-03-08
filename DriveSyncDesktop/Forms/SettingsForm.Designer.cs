@@ -30,6 +30,10 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.AddNewButton = new System.Windows.Forms.Button();
+            this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.StartUpCheckBox = new System.Windows.Forms.CheckBox();
+            this.DelayTimeTextbox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.DeleteAccountButton = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
@@ -40,8 +44,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.DelayTimeTextbox = new System.Windows.Forms.TextBox();
-            this.StartUpCheckBox = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.RefreshButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -61,6 +65,9 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.AddNewButton);
+            this.tabPage1.Controls.Add(this.flowLayoutPanel);
             this.tabPage1.Controls.Add(this.StartUpCheckBox);
             this.tabPage1.Controls.Add(this.DelayTimeTextbox);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
@@ -71,8 +78,48 @@
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // AddNewButton
+            // 
+            this.AddNewButton.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.AddNewButton.Location = new System.Drawing.Point(465, 399);
+            this.AddNewButton.Name = "AddNewButton";
+            this.AddNewButton.Size = new System.Drawing.Size(38, 35);
+            this.AddNewButton.TabIndex = 3;
+            this.AddNewButton.Text = "+";
+            this.AddNewButton.UseVisualStyleBackColor = true;
+            this.AddNewButton.Click += new System.EventHandler(this.AddNewButton_Click);
+            // 
+            // flowLayoutPanel
+            // 
+            this.flowLayoutPanel.AutoScroll = true;
+            this.flowLayoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel.Location = new System.Drawing.Point(6, 46);
+            this.flowLayoutPanel.Name = "flowLayoutPanel";
+            this.flowLayoutPanel.Size = new System.Drawing.Size(497, 353);
+            this.flowLayoutPanel.TabIndex = 3;
+            // 
+            // StartUpCheckBox
+            // 
+            this.StartUpCheckBox.AutoSize = true;
+            this.StartUpCheckBox.Location = new System.Drawing.Point(6, 405);
+            this.StartUpCheckBox.Name = "StartUpCheckBox";
+            this.StartUpCheckBox.Size = new System.Drawing.Size(196, 24);
+            this.StartUpCheckBox.TabIndex = 2;
+            this.StartUpCheckBox.Text = "Start Program on Startup";
+            this.StartUpCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // DelayTimeTextbox
+            // 
+            this.DelayTimeTextbox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.DelayTimeTextbox.Location = new System.Drawing.Point(6, 6);
+            this.DelayTimeTextbox.Name = "DelayTimeTextbox";
+            this.DelayTimeTextbox.PlaceholderText = "Delay time (in miliseconds) (required)";
+            this.DelayTimeTextbox.Size = new System.Drawing.Size(398, 34);
+            this.DelayTimeTextbox.TabIndex = 1;
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.RefreshButton);
             this.tabPage2.Controls.Add(this.DeleteAccountButton);
             this.tabPage2.Controls.Add(this.dataGridView);
             this.tabPage2.Controls.Add(this.CreateButton);
@@ -101,6 +148,8 @@
             // 
             this.dataGridView.AllowUserToAddRows = false;
             this.dataGridView.AllowUserToDeleteRows = false;
+            this.dataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(3, 158);
             this.dataGridView.MultiSelect = false;
@@ -112,6 +161,7 @@
             this.dataGridView.Size = new System.Drawing.Size(500, 225);
             this.dataGridView.TabIndex = 4;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
+            this.dataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellDoubleClick);
             // 
             // CreateButton
             // 
@@ -122,6 +172,7 @@
             this.CreateButton.TabIndex = 3;
             this.CreateButton.Text = "Create";
             this.CreateButton.UseVisualStyleBackColor = true;
+            this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
             // 
             // RootFolderIdTextbox
             // 
@@ -176,24 +227,24 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(45, 22);
             this.toolStripStatusLabel.Text = "None";
             // 
-            // DelayTimeTextbox
+            // label1
             // 
-            this.DelayTimeTextbox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.DelayTimeTextbox.Location = new System.Drawing.Point(6, 6);
-            this.DelayTimeTextbox.Name = "DelayTimeTextbox";
-            this.DelayTimeTextbox.PlaceholderText = "Delay time (in miliseconds) (required)";
-            this.DelayTimeTextbox.Size = new System.Drawing.Size(497, 34);
-            this.DelayTimeTextbox.TabIndex = 1;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(410, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(87, 20);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "miliseconds";
             // 
-            // StartUpCheckBox
+            // RefreshButton
             // 
-            this.StartUpCheckBox.AutoSize = true;
-            this.StartUpCheckBox.Location = new System.Drawing.Point(6, 131);
-            this.StartUpCheckBox.Name = "StartUpCheckBox";
-            this.StartUpCheckBox.Size = new System.Drawing.Size(196, 24);
-            this.StartUpCheckBox.TabIndex = 2;
-            this.StartUpCheckBox.Text = "Start Program on Startup";
-            this.StartUpCheckBox.UseVisualStyleBackColor = true;
+            this.RefreshButton.Location = new System.Drawing.Point(409, 123);
+            this.RefreshButton.Name = "RefreshButton";
+            this.RefreshButton.Size = new System.Drawing.Size(94, 29);
+            this.RefreshButton.TabIndex = 6;
+            this.RefreshButton.Text = "Refresh";
+            this.RefreshButton.UseVisualStyleBackColor = true;
+            this.RefreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
             // 
             // SettingsForm
             // 
@@ -235,5 +286,9 @@
         private Button DeleteAccountButton;
         private TextBox DelayTimeTextbox;
         private CheckBox StartUpCheckBox;
+        private Button AddNewButton;
+        private FlowLayoutPanel flowLayoutPanel;
+        private Label label1;
+        private Button RefreshButton;
     }
 }
