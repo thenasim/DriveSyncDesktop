@@ -123,10 +123,28 @@ public partial class MainForm : Form
 
                     if (isCopied)
                     {
+                        await LoggerUtils.Log(new LogModel()
+                        {
+                            IsSynced = true,
+                            Time = DateTime.Now.ToString("yyyy-MM-dd, hh:mm:ss tt"),
+                            LocalFolderPath = toSync.FolderPath,
+                            RemoteFolderPath = toSync.RemotePath,
+                            RemoteAccountName = toSync.RemoteName,
+                            LogLevel = LogLevel.Information
+                        });
                         toolStripStatusLabel.Text = $"Success syncing {toSync.FolderPath} in {toSync.RemoteName}";
                     }
                     else
                     {
+                        await LoggerUtils.Log(new LogModel()
+                        {
+                            IsSynced = false,
+                            Time = DateTime.Now.ToString("yyyy-MM-dd, hh:mm:ss tt"),
+                            LocalFolderPath = toSync.FolderPath,
+                            RemoteFolderPath = toSync.RemotePath,
+                            RemoteAccountName = toSync.RemoteName,
+                            LogLevel = LogLevel.Error
+                        });
                         errors.Add(toSync);
                         hasError = true;
                     }
