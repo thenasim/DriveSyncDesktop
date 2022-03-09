@@ -14,7 +14,7 @@ public partial class SettingsForm : Form
     private string? _selectedRemoteForDelete;
     private AppConfigModel _appConfig = new();
     private readonly List<string> _toDeleteFolder = new();
-    private static readonly Dictionary<string, List<DirectoryApiModel>> RemoteDirectoryList = new();
+    private readonly Dictionary<string, List<DirectoryApiModel>> _remoteDirectoryList = new();
 
     public SettingsForm()
     {
@@ -23,7 +23,7 @@ public partial class SettingsForm : Form
     }
 
     // ----- Custom method -----
-    private void LoadNewFolder(string? selectedFolderPath = null, string? selectedRemoteName = null)
+    private void LoadNewFolder(string? selectedFolderPath = null, string? selectedRemoteName = null, string? remoteFolder = null)
     {
         FlowLayoutPanel flowPanel = new()
         {
@@ -70,18 +70,28 @@ public partial class SettingsForm : Form
             foreach (var remoteName in _remoteLists.Remotes)
                 comboBox.Items.Add(remoteName);
 
+        void SetCombobox(string? r)
+        {
+            if (r == null) return;
+
+            remoteFolderComboBox.Items.Clear();
+            var remoteFolders = _remoteDirectoryList[r];
+
+            foreach (var dir in remoteFolders.Where(dir => dir.IsDir))
+            {
+                remoteFolderComboBox.Items.Add(dir.Path);
+            }
+        }
+
+        SetCombobox(selectedRemoteName);
+
         comboBox.SelectedIndex = comboBox.FindString(selectedRemoteName);
+        remoteFolderComboBox.SelectedIndex = remoteFolderComboBox.FindString(remoteFolder);
 
         // If the remote account is selected set folder list in combobox
         comboBox.SelectedIndexChanged += (_, _) =>
         {
-            remoteFolderComboBox.Items.Clear();
-            var remoteFolders = RemoteDirectoryList[comboBox.Text];
-
-            foreach (var dir in remoteFolders.Where(dir => dir.IsDir))
-            {
-                remoteFolderComboBox.Items.Add(dir.Name);
-            }
+            SetCombobox(comboBox.Text);
         };
 
         // Set the text box text if folder is selected
@@ -109,7 +119,8 @@ public partial class SettingsForm : Form
         _textBoxComboboxList.Add(new TextBoxCombobox
         {
             TextBox = textBox,
-            ComboBox = comboBox
+            ComboBox = comboBox,
+            RemoteFolderPath = remoteFolderComboBox
         });
     }
     private void SetAppConfig()
@@ -124,7 +135,8 @@ public partial class SettingsForm : Form
             folderSyncList.Add(new FolderToSync
             {
                 FolderPath = x.TextBox.Text,
-                RemoteName = x.ComboBox.Text
+                RemoteName = x.ComboBox.Text,
+                RemotePath = x.RemoteFolderPath.Text
             });
         }
 
@@ -144,7 +156,7 @@ public partial class SettingsForm : Form
             var data = await Task.FromResult(JsonSerializer.Deserialize<List<DirectoryApiModel>>(output));
 
             if (data == null) continue;
-            RemoteDirectoryList.Add(remote, data);
+            _remoteDirectoryList.Add(remote, data);
         }
     }
     private void SaveConfig()
@@ -197,7 +209,7 @@ public partial class SettingsForm : Form
 
             if (config?.FolderToSyncList != null)
                 foreach (var toSync in config.FolderToSyncList)
-                    LoadNewFolder(toSync.FolderPath, toSync.RemoteName);
+                    LoadNewFolder(toSync.FolderPath, toSync.RemoteName, toSync.RemotePath);
 
             AddNewButton.Enabled = true;
 
@@ -288,4 +300,5 @@ public class TextBoxCombobox
 {
     public TextBox TextBox { get; set; }
     public ComboBox ComboBox { get; set; }
+    public ComboBox RemoteFolderPath { get; set; }
 }

@@ -10,4 +10,5 @@ public record FolderToSync
 {
     public string FolderPath { get; set; } = string.Empty;
     public string RemoteName { get; set; } = string.Empty;
+    public string RemotePath { get; set; } = string.Empty;
 }
