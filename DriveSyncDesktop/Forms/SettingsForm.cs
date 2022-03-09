@@ -15,11 +15,13 @@ public partial class SettingsForm : Form
     private AppConfigModel _appConfig = new();
     private readonly List<string> _toDeleteFolder = new();
     private readonly Dictionary<string, List<DirectoryApiModel>> _remoteDirectoryList = new();
+    private readonly Action? _reloadAppConfigAction;
 
-    public SettingsForm()
+    public SettingsForm(Action action)
     {
         InitializeComponent();
         _rCloneApiService = new RCloneApiService("http://localhost:5572");
+        _reloadAppConfigAction = action;
     }
 
     // ----- Custom method -----
@@ -255,6 +257,7 @@ public partial class SettingsForm : Form
                 StartupUtils.Remove();
 
             SaveConfig();
+            _reloadAppConfigAction?.Invoke();
 
             MessageBox.Show("Saved successfully");
             Hide();

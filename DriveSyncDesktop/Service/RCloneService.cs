@@ -56,14 +56,15 @@ public class RCloneService
 
     public static bool ListDirectories(string remoteName, out string output, string remotePath = "")
     {
-        var exitCode = RunCommand($"lsjson {remoteName}:{remotePath}", out output);
+        var exitCode = RunCommand($"lsjson \"{remoteName}:{remotePath}\"", out output);
 
         return exitCode == 0;
     }
 
     public static bool Copy(string sourceCommand, string destCommand, out string output, string remotePath = "")
     {
-        var exitCode = RunCommand($"copy {sourceCommand} {destCommand}:{remotePath}", out output);
+        var command = $"copy \"{sourceCommand}\" \"{destCommand}:{remotePath}\"";
+        var exitCode = RunCommand(command, out output);
 
         return exitCode == 0;
     }
