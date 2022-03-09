@@ -20,6 +20,24 @@ public partial class MainForm : Form
     }
 
     // Custom function
+    private async Task SetErrorCountText()
+    {
+        try
+        {
+            var todayLogs = await LoggerUtils.LoadTodayLogs();
+
+            if (todayLogs != null)
+            {
+                var count = todayLogs.Count(x => x.IsSynced == false);
+                ErrorCountButton.Text = $"Error Occurred Today ( {count} )";
+                ErrorCountButton.ForeColor = Color.Red;
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+    }
     private void SetAppConfig()
     {
         try
@@ -156,13 +174,7 @@ public partial class MainForm : Form
                             LogLevel = LogLevel.Error
                         });
 
-                        var todayLogs = await LoggerUtils.LoadTodayLogs();
-
-                        if (todayLogs != null)
-                        {
-                            var count = todayLogs.Count(x => x.IsSynced == false);
-                            ErrorCountButton.Text = $"Error Occurred Today ( {count} )";
-                        }
+                        await SetErrorCountText();
                     }
 
                     toolStripProgressBar.Value = progress;
@@ -198,13 +210,14 @@ public partial class MainForm : Form
     // ----- Notify Icon Context menu Events Handler -----
 
     // ----- Form Events -----
-    private void MainForm_Load(object sender, EventArgs e)
+    private async void MainForm_Load(object sender, EventArgs e)
     {
         if (backgroundWorkerForHttp.IsBusy == false)
         {
             backgroundWorkerForHttp.RunWorkerAsync();
         }
         SetCancelButtonText();
+        await SetErrorCountText();
     }
     private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
     {
@@ -231,5 +244,9 @@ public partial class MainForm : Form
     {
         _cancelSync = !_cancelSync;
         SetCancelButtonText();
+    }
+    private void ErrorCountButton_Click(object sender, EventArgs e)
+    {
+        new ErrorListForm().Show();
     }
 }

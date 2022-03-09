@@ -323,6 +323,7 @@
             this.ErrorCountButton.TabIndex = 31;
             this.ErrorCountButton.Text = "Error Occurred Today ( 0 )";
             this.ErrorCountButton.UseVisualStyleBackColor = true;
+            this.ErrorCountButton.Click += new System.EventHandler(this.ErrorCountButton_Click);
             // 
             // MainForm
             // 
