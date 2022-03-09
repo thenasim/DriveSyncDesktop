@@ -116,8 +116,8 @@ public partial class MainForm : Form
                     InQueueLabel.Text = queueCount.ToString();
                     // Set syncing label text
                     SyncingFolder.Text = toSync.FolderPath;
-                    SyncingAccount.Text = toSync.RemoteName;
-                    SyncingRemotePath.Text = toSync.RemotePath;
+                    SyncingAccountLabel.Text = toSync.RemoteName;
+                    SyncingRemotePathLabel.Text = toSync.RemotePath;
 
                     var isCopied = RCloneService.Copy(toSync.FolderPath, toSync.RemoteName, out _, toSync.RemotePath);
 
@@ -133,9 +133,19 @@ public partial class MainForm : Form
                             LogLevel = LogLevel.Information
                         });
                         toolStripStatusLabel.Text = $"Success syncing {toSync.FolderPath} in {toSync.RemoteName}";
+
+                        // Set last syncing label text
+                        LastSyncFolderLabel.Text = toSync.FolderPath;
+                        LastSyncFolderLabel.ForeColor = Color.LimeGreen;
+                        LastSyncAccountLabel.Text = toSync.RemoteName;
+                        LastSyncAccountLabel.ForeColor = Color.LimeGreen;
+                        LastSyncRemotePath.Text = toSync.RemotePath;
+                        LastSyncRemotePath.ForeColor = Color.LimeGreen;
                     }
                     else
                     {
+                        hasError = true;
+
                         await LoggerUtils.Log(new LogModel()
                         {
                             IsSynced = false,
@@ -145,8 +155,14 @@ public partial class MainForm : Form
                             RemoteAccountName = toSync.RemoteName,
                             LogLevel = LogLevel.Error
                         });
-                        errors.Add(toSync);
-                        hasError = true;
+
+                        var todayLogs = await LoggerUtils.LoadTodayLogs();
+
+                        if (todayLogs != null)
+                        {
+                            var count = todayLogs.Count(x => x.IsSynced == false);
+                            ErrorCountButton.Text = $"Error Occurred Today ( {count} )";
+                        }
                     }
 
                     toolStripProgressBar.Value = progress;
@@ -163,8 +179,8 @@ public partial class MainForm : Form
                 toolStripProgressBar.Value = 100;
 
                 SyncingFolder.Text = "None";
-                SyncingAccount.Text = "None";
-                SyncingRemotePath.Text = "None";
+                SyncingAccountLabel.Text = "None";
+                SyncingRemotePathLabel.Text = "None";
             } while (await timer.WaitForNextTickAsync() && _cancelSync == false);
         }
         catch (Exception ex)

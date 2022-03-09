@@ -48,4 +48,22 @@ public class LoggerUtils
             return false;
         }
     }
+
+    public static async Task<List<LogModel>?> LoadTodayLogs()
+    {
+        var filePath = Path.Join(LoggerFolder, $"{TodayFileString}.json");
+
+        try
+        {
+            if (!File.Exists(filePath)) return null;
+
+            var fileContent = await File.ReadAllTextAsync(filePath);
+            return JsonSerializer.Deserialize<List<LogModel>>(fileContent);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+            return null;
+        }
+    }
 }

@@ -45,11 +45,18 @@
             this.backgroundWorkerForSync = new System.ComponentModel.BackgroundWorker();
             this.label2 = new System.Windows.Forms.Label();
             this.SyncingFolder = new System.Windows.Forms.Label();
-            this.SyncingAccount = new System.Windows.Forms.Label();
+            this.SyncingAccountLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.SyncingRemotePath = new System.Windows.Forms.Label();
+            this.SyncingRemotePathLabel = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.CancelButton = new System.Windows.Forms.Button();
+            this.LastSyncRemotePath = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.LastSyncAccountLabel = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.LastSyncFolderLabel = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.ErrorCountButton = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +71,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar,
             this.toolStripStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 502);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 581);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(786, 26);
             this.statusStrip1.TabIndex = 7;
@@ -96,7 +103,7 @@
             // StartSyncButton
             // 
             this.StartSyncButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.StartSyncButton.Location = new System.Drawing.Point(320, 394);
+            this.StartSyncButton.Location = new System.Drawing.Point(321, 490);
             this.StartSyncButton.Name = "StartSyncButton";
             this.StartSyncButton.Size = new System.Drawing.Size(155, 53);
             this.StartSyncButton.TabIndex = 9;
@@ -126,7 +133,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 75);
+            this.label3.Location = new System.Drawing.Point(12, 74);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 20);
             this.label3.TabIndex = 12;
@@ -136,7 +143,7 @@
             // 
             this.LastSyncedLabel.AutoSize = true;
             this.LastSyncedLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.LastSyncedLabel.Location = new System.Drawing.Point(119, 69);
+            this.LastSyncedLabel.Location = new System.Drawing.Point(119, 67);
             this.LastSyncedLabel.Name = "LastSyncedLabel";
             this.LastSyncedLabel.Size = new System.Drawing.Size(95, 28);
             this.LastSyncedLabel.TabIndex = 13;
@@ -145,7 +152,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 117);
+            this.label5.Location = new System.Drawing.Point(12, 115);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(72, 20);
             this.label5.TabIndex = 14;
@@ -155,7 +162,7 @@
             // 
             this.NextSyncLabel.AutoSize = true;
             this.NextSyncLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.NextSyncLabel.Location = new System.Drawing.Point(119, 113);
+            this.NextSyncLabel.Location = new System.Drawing.Point(119, 109);
             this.NextSyncLabel.Name = "NextSyncLabel";
             this.NextSyncLabel.Size = new System.Drawing.Size(95, 28);
             this.NextSyncLabel.TabIndex = 15;
@@ -164,7 +171,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 159);
+            this.label7.Location = new System.Drawing.Point(12, 156);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(66, 20);
             this.label7.TabIndex = 16;
@@ -174,7 +181,7 @@
             // 
             this.InQueueLabel.AutoSize = true;
             this.InQueueLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.InQueueLabel.Location = new System.Drawing.Point(119, 157);
+            this.InQueueLabel.Location = new System.Drawing.Point(119, 151);
             this.InQueueLabel.Name = "InQueueLabel";
             this.InQueueLabel.Size = new System.Drawing.Size(23, 28);
             this.InQueueLabel.TabIndex = 17;
@@ -187,7 +194,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 232);
+            this.label2.Location = new System.Drawing.Point(12, 353);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(106, 20);
             this.label2.TabIndex = 18;
@@ -197,45 +204,45 @@
             // 
             this.SyncingFolder.AutoSize = true;
             this.SyncingFolder.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SyncingFolder.Location = new System.Drawing.Point(167, 225);
+            this.SyncingFolder.Location = new System.Drawing.Point(167, 346);
             this.SyncingFolder.Name = "SyncingFolder";
             this.SyncingFolder.Size = new System.Drawing.Size(60, 28);
             this.SyncingFolder.TabIndex = 19;
             this.SyncingFolder.Text = "None";
             // 
-            // SyncingAccount
+            // SyncingAccountLabel
             // 
-            this.SyncingAccount.AutoSize = true;
-            this.SyncingAccount.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SyncingAccount.Location = new System.Drawing.Point(167, 265);
-            this.SyncingAccount.Name = "SyncingAccount";
-            this.SyncingAccount.Size = new System.Drawing.Size(60, 28);
-            this.SyncingAccount.TabIndex = 21;
-            this.SyncingAccount.Text = "None";
+            this.SyncingAccountLabel.AutoSize = true;
+            this.SyncingAccountLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SyncingAccountLabel.Location = new System.Drawing.Point(167, 386);
+            this.SyncingAccountLabel.Name = "SyncingAccountLabel";
+            this.SyncingAccountLabel.Size = new System.Drawing.Size(60, 28);
+            this.SyncingAccountLabel.TabIndex = 21;
+            this.SyncingAccountLabel.Text = "None";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 272);
+            this.label6.Location = new System.Drawing.Point(12, 393);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(118, 20);
             this.label6.TabIndex = 20;
             this.label6.Text = "Syncing Account";
             // 
-            // SyncingRemotePath
+            // SyncingRemotePathLabel
             // 
-            this.SyncingRemotePath.AutoSize = true;
-            this.SyncingRemotePath.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SyncingRemotePath.Location = new System.Drawing.Point(167, 305);
-            this.SyncingRemotePath.Name = "SyncingRemotePath";
-            this.SyncingRemotePath.Size = new System.Drawing.Size(60, 28);
-            this.SyncingRemotePath.TabIndex = 23;
-            this.SyncingRemotePath.Text = "None";
+            this.SyncingRemotePathLabel.AutoSize = true;
+            this.SyncingRemotePathLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SyncingRemotePathLabel.Location = new System.Drawing.Point(167, 426);
+            this.SyncingRemotePathLabel.Name = "SyncingRemotePathLabel";
+            this.SyncingRemotePathLabel.Size = new System.Drawing.Size(60, 28);
+            this.SyncingRemotePathLabel.TabIndex = 23;
+            this.SyncingRemotePathLabel.Text = "None";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 312);
+            this.label9.Location = new System.Drawing.Point(12, 433);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(148, 20);
             this.label9.TabIndex = 22;
@@ -243,7 +250,7 @@
             // 
             // CancelButton
             // 
-            this.CancelButton.Location = new System.Drawing.Point(350, 458);
+            this.CancelButton.Location = new System.Drawing.Point(351, 549);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(94, 29);
             this.CancelButton.TabIndex = 24;
@@ -251,15 +258,88 @@
             this.CancelButton.UseVisualStyleBackColor = true;
             this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
+            // LastSyncRemotePath
+            // 
+            this.LastSyncRemotePath.AutoSize = true;
+            this.LastSyncRemotePath.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.LastSyncRemotePath.Location = new System.Drawing.Point(167, 291);
+            this.LastSyncRemotePath.Name = "LastSyncRemotePath";
+            this.LastSyncRemotePath.Size = new System.Drawing.Size(60, 28);
+            this.LastSyncRemotePath.TabIndex = 30;
+            this.LastSyncRemotePath.Text = "None";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 298);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(157, 20);
+            this.label8.TabIndex = 29;
+            this.label8.Text = "Last Sync Remote Path";
+            // 
+            // LastSyncAccountLabel
+            // 
+            this.LastSyncAccountLabel.AutoSize = true;
+            this.LastSyncAccountLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.LastSyncAccountLabel.Location = new System.Drawing.Point(167, 251);
+            this.LastSyncAccountLabel.Name = "LastSyncAccountLabel";
+            this.LastSyncAccountLabel.Size = new System.Drawing.Size(60, 28);
+            this.LastSyncAccountLabel.TabIndex = 28;
+            this.LastSyncAccountLabel.Text = "None";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 258);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(127, 20);
+            this.label11.TabIndex = 27;
+            this.label11.Text = "Last Sync Account";
+            // 
+            // LastSyncFolderLabel
+            // 
+            this.LastSyncFolderLabel.AutoSize = true;
+            this.LastSyncFolderLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.LastSyncFolderLabel.Location = new System.Drawing.Point(167, 211);
+            this.LastSyncFolderLabel.Name = "LastSyncFolderLabel";
+            this.LastSyncFolderLabel.Size = new System.Drawing.Size(60, 28);
+            this.LastSyncFolderLabel.TabIndex = 26;
+            this.LastSyncFolderLabel.Text = "None";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(12, 218);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(115, 20);
+            this.label13.TabIndex = 25;
+            this.label13.Text = "Last Sync Folder";
+            // 
+            // ErrorCountButton
+            // 
+            this.ErrorCountButton.Location = new System.Drawing.Point(499, 47);
+            this.ErrorCountButton.Name = "ErrorCountButton";
+            this.ErrorCountButton.Size = new System.Drawing.Size(275, 47);
+            this.ErrorCountButton.TabIndex = 31;
+            this.ErrorCountButton.Text = "Error Occurred Today ( 0 )";
+            this.ErrorCountButton.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(786, 528);
+            this.ClientSize = new System.Drawing.Size(786, 607);
+            this.Controls.Add(this.ErrorCountButton);
+            this.Controls.Add(this.LastSyncRemotePath);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.LastSyncAccountLabel);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.LastSyncFolderLabel);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.SyncingRemotePath);
+            this.Controls.Add(this.SyncingRemotePathLabel);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.SyncingAccount);
+            this.Controls.Add(this.SyncingAccountLabel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.SyncingFolder);
             this.Controls.Add(this.label2);
@@ -303,10 +383,17 @@
         private System.ComponentModel.BackgroundWorker backgroundWorkerForSync;
         private Label label2;
         private Label SyncingFolder;
-        private Label SyncingAccount;
+        private Label SyncingAccountLabel;
         private Label label6;
-        private Label SyncingRemotePath;
+        private Label SyncingRemotePathLabel;
         private Label label9;
         private Button CancelButton;
+        private Label LastSyncRemotePath;
+        private Label label8;
+        private Label LastSyncAccountLabel;
+        private Label label11;
+        private Label LastSyncFolderLabel;
+        private Label label13;
+        private Button ErrorCountButton;
     }
 }
