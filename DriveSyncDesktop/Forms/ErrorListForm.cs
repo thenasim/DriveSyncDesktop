@@ -26,7 +26,7 @@ namespace DriveSyncDesktop.Forms
 
                 if (todayLogs == null) return;
 
-                foreach (var log in todayLogs)
+                foreach (var log in todayLogs.Where(log => !log.IsSynced))
                 {
                     ListBox.Items.Add($"Time: {log.Time}, Local: {log.LocalFolderPath}, Account: {log.RemoteAccountName}, Remote path: {log.RemoteFolderPath}");
                 }
