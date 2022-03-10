@@ -68,6 +68,8 @@ public partial class MainForm : Form
     {
         try
         {
+            StartSyncButton.Enabled = false;
+
             toolStripStatusLabel.Text = "Starting RClone server";
             toolStripProgressBar.Value = 10;
             
@@ -90,6 +92,8 @@ public partial class MainForm : Form
             //_notifyIcon.ContextMenuStrip.Items.Add("Exit");
 
             toolStripProgressBar.Value = 100;
+
+            StartSyncButton.Enabled = true;
         }
         catch (Exception ex)
         {

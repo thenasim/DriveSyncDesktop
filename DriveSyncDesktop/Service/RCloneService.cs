@@ -49,7 +49,7 @@ public class RCloneService
 
     public static bool DeleteConfig(string remoteName, out string output)
     {
-        var exitCode = RunCommand($"config delete {remoteName}", out output);
+        var exitCode = RunCommand($"config delete \"{remoteName}\"", out output);
 
         return exitCode == 0;
     }
