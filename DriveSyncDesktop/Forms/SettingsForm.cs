@@ -148,14 +148,14 @@ public partial class SettingsForm : Form
             RepeatSync = Convert.ToDouble(DelayTimeTextbox.Text),
         };
     }
-    private async Task LoadRemoteDirectories()
+    private void LoadRemoteDirectories()
     {
         if (_remoteLists?.Remotes == null) return;
 
         foreach (var remote in _remoteLists.Remotes)
         {
             RCloneService.ListDirectories(remote, out var output);
-            var data = await Task.FromResult(JsonSerializer.Deserialize<List<DirectoryApiModel>>(output));
+            var data = JsonSerializer.Deserialize<List<DirectoryApiModel>>(output);
 
             if (data == null) continue;
             _remoteDirectoryList.Add(remote, data);
@@ -207,7 +207,7 @@ public partial class SettingsForm : Form
             }
 
             await PopulateGridView();
-            await LoadRemoteDirectories();
+            LoadRemoteDirectories();
 
             if (config?.FolderToSyncList != null)
                 foreach (var toSync in config.FolderToSyncList)

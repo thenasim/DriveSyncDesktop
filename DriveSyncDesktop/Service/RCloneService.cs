@@ -66,6 +66,6 @@ public class RCloneService
         var command = $"copy \"{sourceCommand}\" \"{destCommand}:{remotePath}\"";
         var exitCode = RunCommand(command, out output);
 
-        return exitCode != 0;
+        return exitCode == 0;
     }
 }
